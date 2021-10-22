@@ -59,6 +59,12 @@ Im DevOps-Bereich wurde festgestellt, dass bei einem Großteil der Microservices
 
 Mit Blick auf die Zukunft sind sich 85,5% der Befragten sicher, dass die Microservice-Architektur der Industriestandard entweder für Backends (36,2%) oder komplexe Systeme (49,3%) sein wird.
 
+## Fazit
+
+In diesem Artikel wurde die Geschichte von Microservices thematisiert. Dabei wurde festgestellt, dass das Konzept von verteilten Systemen bereits seit mehreren Jahrzehnten besteht, allerdings erst seit ~10 Jahren benannt und populär gemacht wird. Außerdem wurde aufgeführt, welche Probleme durch eine Microservice-Architektur gelöst werden, aber auch welche Kompromisse dadurch entstehen. Schließlich wurde auf Basis einer Umfrage der aktuelle Stand von Microservices bezüglich verwendeter Technologien usw. dargelegt. Hier stellte sich heraus, dass Cloud-Computing sowie Node.js und Java als Technologien in Kombination mit Microservices eine große Rolle spielen.
+
+Im nächsten Teil dieser Artikel-Serie werden verschiedene Methoden/Frameworks vorgestellt, welche die Orchestrierung sowie Entwicklung von Microservices in Java mit Spring erleichtern. Dabei werden der Netflix-Stack in Form von Spring Cloud Netflix, native Kubernetes-Funktionalitäten und Spring Cloud Kubernetes hinsichtlich Service Discovery, Load Balancing, Resilienz und Routing verglichen.
+
 ## Referenzen
 
 \[1\]: That Tech Show, Episode 14 - The Grandfather of Microservices, Fred George, <https://play.acast.com/s/that-tech-show/fred-george-the-grandfather-of-microservices>
