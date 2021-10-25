@@ -1,7 +1,8 @@
 # Microservices - Teil 2: Entwicklung von Microservices
 
-Trotz der im ersten Teil dieser Artikel-Serie aufgeführten Ergebnisse der Umfrage zu Technologien verbleibt Java in Kombination mit dem Spring Framework eine der Haupt-Technologien im Enterprise-Bereich zur Entwicklung von Microservices.
-Im Folgenden werden daher verschiedene Methoden erläutert, welche die Orchestrierung sowie Entwicklung von Microservices mit Spring Boot erleichtern.
+Im ersten Teil dieser Artikel-Serie wurde die Geschichte der Microservice-Architektur dargestellt. Dazu wurde die Entstehung dieses Konzeptes sowie dadurch gelöste Probleme aber auch daraus entstandenen Kompromisse vorgestellt. Außerdem wurde anhand einer Umfrage aus 2020 festgestellt, dass Node.js die populärste Technologie zur Entwicklung von Microservices war. Die Silbermedaille ging dabei an Java, was vermutlich am Enterprise-Bereich liegt: Java ist vor allem dank eines großen Ökosystems und in Kombination mit dem Spring Framework eine optimale Technologie zur Lösung vieler komplexer Probleme, welche oft in Enterprise-Umgebungen vorhanden sind \[[4]\]\[[5]\].
+
+In diesem Artikel werden daher verschiedene Methoden erläutert, welche die Orchestrierung sowie Entwicklung von Microservices mit Spring Boot erleichtern, und hinsichtlich Service Discovery, Load Balancing, Resilienz und Routing verglichen.
 
 ## Spring Cloud Netflix (Netflix-Stack)
 
@@ -9,21 +10,106 @@ Netflix bietet auf [GitHub][site:netflix-oss] eine Vielzahl an Open-Source Techn
 
 ### Eureka
 
-Damit Microservices miteinander kommunizieren können, muss bekannt sein, welcher Service unter welcher Netzwerkadresse zu erreichen ist. Alternativ zum manuellen Eintragen aller IP-Adressen in eine Config-Datei (diese IPs könnten sich ständig ändern), kann ein [Eureka][site:eureka] Server eingesetzt werden, welcher die **Service Discovery** (= zentralisierte Verwaltung der Adressen aller Microservices) übernimmt. Eureka Service Clients können sich dann per HTTP-Request am Eureka Server registrieren und Application Clients können wiederum die Adressen dieser registrierten Services am Eureka Server abfragen.
+Damit Microservices miteinander kommunizieren können, muss bekannt sein, welcher Service unter welcher Netzwerkadresse erreichbar ist. Alternativ zum manuellen Eintragen aller IP-Adressen in eine Config-Datei (diese IPs könnten sich ständig ändern), kann ein [Eureka][site:eureka] Server eingesetzt werden, welcher die **Service Discovery** (= zentralisierte Verwaltung der Adressen aller Microservices) übernimmt. Eureka Service Clients können sich dann per HTTP-Request am Eureka Server registrieren und Application Clients können wiederum die Adressen dieser registrierten Services am Eureka Server abfragen.
 
-> Aufgrund einiger Limitationen von Eureka wurde entschlossen, ein neues Major Release (Eureka 2.0) mit diversen Verbesserungen wie bspw. interessenbasierten Subscriptions der Service Registry oder einem informativeren Dashboard zu entwickeln. Die Entwicklung von Eureka 2.0 wurde jedoch eingestellt, da parallele Open-Source Projekte nie die benötigte Reife erreichten \[[2]\].
+> Aufgrund einiger Limitationen von Eureka wurde entschlossen, ein neues Major Release (Eureka 2.0) mit diversen Verbesserungen wie bspw. interessenbasierten Subscriptions der Service Registry oder einem informativeren Dashboard zu entwickeln. Die Entwicklung von Eureka 2.0 wurde jedoch eingestellt, da parallele Open-Source Projekte nie die benötigte Reife erreichten \[[2]\]. Version 1 erhält weiterhin Updates: <https://github.com/Netflix/eureka/releases>.
 
 ### Hystrix
 
-Der Ausfall eines Services in einem verteilten System ist in den meisten Fällen unumgänglich. Da es in Microservice-Architekturen nicht ungewöhnlich ist, dass die Services sich gegenseitig aufrufen, sollte ein gewisser Grad an **Resilienz** in Form von Ausfallsicherheit sichergestellt werden. [Hystrix][site:hystrix] ist Netflix' Implementierung des _Circuit Breaker_-Patterns.
+Der Ausfall eines Services in einem verteilten System ist in den meisten Fällen unumgänglich. Da es in Microservice-Architekturen nicht ungewöhnlich ist, dass die Services sich gegenseitig aufrufen, sollte ein gewisser Grad an **Resilienz** in Form von Ausfallsicherheit sichergestellt werden. [Hystrix][site:hystrix] ist Netflix' Implementierung des _Circuit Breaker_-Patterns (temporäre Unterbindung aller Aufrufe eines Services im Fehlerfall).
 
 ### Ribbon
 
-Ein Vorteil der Microservice-Architektur ist, dass jeder Service unabhängig skaliert werden kann, sodass häufig mehrere Instanzen eines Services im System existieren. Damit die Anfragen auf einen Service fair über alle Instanzen verteilt werden, kann ein Load Balancer eingesetzt werden, welcher eben dies nach einem vordefinierten Verfahren regelt. [Ribbon][site:ribbon] ist Netflix' Implementierung eines **Client-seitigen Load Balancers**.
+Ein Vorteil der Microservice-Architektur ist, dass jeder Service unabhängig skaliert werden kann, sodass häufig mehrere Instanzen eines Services im System existieren. Damit die Anfragen auf einen Service fair über alle Instanzen verteilt werden, kann ein Load Balancer eingesetzt werden, welcher eben dies nach einem vordefinierten Verfahren regelt. [Ribbon][site:ribbon] ist Netflix' Implementierung eines **clientseitigen Load Balancers**.
 
 ### Zuul
 
 [Zuul][site:zuul] fungiert in der Rolle eines **Gateway Proxy** als Eintrittspunkt in ein verteiltes System, wodurch der interne Aufbau des jeweiligen Systems nach außen hin verborgen werden kann. Dabei können Anfragen dynamisch an verschiedene Backend-Cluster geleitet (**Routing**), parallel **serverseitiges Load Balancing** betrieben und außerdem die **Resilienz** erhöht werden.
+
+## Spring Cloud Kubernetes
+
+**[Spring Cloud Kubernetes][site:spring-cloud-k8s]** kann als Dependency zu einem Spring Boot-Projekt hinzugefügt werden, wodurch Implementationen diverser Interfaces bereitgestellt werden. Diese sollen die Entwicklung von Spring Cloud-Anwendungen in einer Kubernetes Umgebung vereinfachen.
+
+Um alle Funktionalitäten von Spring Cloud Kubernetes in einem Microservice nutzen zu können, muss folgender Eintrag in der `pom.xml` des jeweiligen Services ergänzt werden:
+
+```xml
+<dependency>
+  <groupId>org.springframework.cloud</groupId>
+  <artifactId>spring-cloud-starter-kubernetes-all</artifactId>
+  <version>1.1.10.RELEASE</version>
+</dependency>
+```
+
+> Version `1.1.10` ist aktuell die neueste Version dieser Abhängigkeit und kompatibel mit Spring Boot `2.3.X`.
+
+### Service Discovery (clientseitig)
+
+Um in Erfahrung zu bringen, welche Services in Kubernetes zur Verfügung stehen, kann ein `DiscoveryClient` verwendet werden.
+Dazu muss die Annotation `@EnableDiscoveryClient` in der Spring Boot Application-Klasse ergänzt werden:
+
+```java
+@SpringBootApplication
+@EnableDiscoveryClient
+public class MicroserviceA {
+  public static void main(String[] args) {
+    SpringApplication.run(MicroserviceA.class, args);
+  }
+}
+```
+
+Daraufhin kann per Dependency Injection ein `DiscoveryClient` erstellt werden, welcher die Kubernetes API auf Services abfragt:
+
+```java
+@Autowired
+private DiscoveryClient discoveryClient;
+
+// List<String> all_services = discoveryClient.getServices();
+// List<ServiceInstance> ms_b_instances = discoveryClient.getInstances("myapp-microservice-b");
+// ...
+```
+
+> Die serverseitige Service Discovery, welche nativ in Kubernetes vorhanden ist, kann natürlich unabhängig vom `DiscoveryClient` verwendet werden.
+
+Das Besondere an dieser Implementation ist, dass Services in allen Kubernetes-Namespaces gefunden werden können:
+
+```yaml
+spring:
+  cloud:
+    kubernetes:
+      discovery:
+        all-namespaces: true
+```
+
+### Load Balancing (clientseitig)
+
+Neben der clientseitigen Service Discovery bringt Spring Cloud Kubernetes ebenfalls einen clientseitigen Load Balancer mit sich.
+Dieser kann aktiviert werden, indem bspw. ein `RestTemplate`-Bean mit der Annotation `@LoadBalanced` versehen wird \[[3]\]:
+
+```java
+@Bean
+@LoadBalanced
+RestTemplate restTemplate() {
+  return new RestTemplate();
+}
+```
+
+Ähnlich wie bei der Service Discovery kann der Load Balancer auch über verschiedene Namespaces hinweg fungieren:
+
+```yaml
+spring:
+  cloud:
+    kubernetes:
+      discovery:
+        all-namespaces: true
+```
+
+### Resilienz
+
+Spring Cloud Kubernetes [schlägt vor][site:spring-cloud-k8s-resilience], **Hystrix** aus dem Netflix-Stack als Implementation des _Circuit-Breaker_-Patterns sowie zur Angabe von Fallback-Methoden zu verwenden.
+
+### Routing
+
+Für das Routing muss auf **Zuul**, ebenfalls eine Komponente des Netflix-Stacks, zurückgegriffen werden \[[3]\].
 
 ## Kubernetes nativ
 
@@ -37,7 +123,7 @@ Falls ein Service innerhalb eines Pods ausfällt, wird dieser von Kubernetes aut
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: myapp
+  name: myapp-component-a
 spec:
   replicas: 10
   # selector: ...
@@ -54,6 +140,7 @@ kind: Service
 metadata:
   name: myapp-a-service
 spec:
+  type: ClusterIP
   selector:
     app: myapp-component-a
   ports:
@@ -72,7 +159,7 @@ spec:
     targetPort: 8080
 ```
 
-Ein Container innerhalb des Pods `myapp-component-a` könnte so mit `myapp-component-b` kommunizieren, indem Anfragen an `http://myapp-b-service:8080/` gesendet werden.
+Ein Container innerhalb von `myapp-component-a` könnte so mit `myapp-component-b` kommunizieren, indem Anfragen an `http://myapp-b-service:8080/` gesendet werden.
 
 ### Load Balancing via Services
 
@@ -158,14 +245,14 @@ spec:
             name: myapp-frontend-service
             port:
               number: 80
-      - path: /ms-a
+      - path: /api/ms-a
         pathType: Prefix
         backend:
           service:
             name: myapp-microservice-a
             port:
               number: 80
-      - path: /ms-b
+      - path: /api/ms-b
         pathType: Prefix
         backend:
           service:
@@ -177,91 +264,18 @@ spec:
 Nach dem Anwenden dieser Konfigurationen könnte man über...
 
 - `localhost:80/` auf das Frontend,
-- `localhost:80/ms-a` auf Microservice A und
-- `localhost:80/ms-b` auf Microservice B
+- `localhost:80/api/ms-a` auf Microservice A und
+- `localhost:80/api/ms-b` auf Microservice B
 
 zugreifen.
 
 > Es sollte beachtet werden, dass zusätzlich zum Ingress-Objekt zwingend ein **Ingress Controller** (z. B. [von NGINX][site:nginx-ingress-controller]) benötigt wird. Dieser Controller interpretiert die Regeln des Ingress-Objektes und führt basierend darauf das Routing durch.
 
-## Spring Cloud Kubernetes
+## Fazit
 
-**[Spring Cloud Kubernetes][site:spring-cloud-k8s]** kann als Dependency zu einem Spring Boot-Projekt hinzugefügt werden, wodurch Implementationen diverser Interfaces bereitgestellt werden. Diese sollen die Entwicklung von Spring Cloud-Anwendungen in einer Kubernetes Umgebung vereinfachen.
+In diesem Artikel wurden der Netflix-Stack (Spring Cloud Netflix) mit Spring Cloud Kubernetes und nativen Kubernetes-Funktionalitäten hinsichtlich Service Discovery, Load Balancing, Resilienz und Routing verglichen.
 
-Um alle Funktionalitäten von Spring Cloud Kubernetes in einem Microservice nutzen zu können, muss folgender Eintrag in der `pom.xml` des jeweiligen Services ergänzt werden:
-
-```xml
-<dependency>
-  <groupId>org.springframework.cloud</groupId>
-  <artifactId>spring-cloud-starter-kubernetes-all</artifactId>
-  <version>1.1.10.RELEASE</version>
-</dependency>
-```
-
-> Version `1.1.10` ist aktuell die neueste Version dieser Abhängigkeit und kompatibel mit Spring Boot `2.3.X`.
-
-### Service Discovery (clientseitig)
-
-Um in Erfahrung zu bringen, welche Services in Kubernetes zur Verfügung stehen, kann ein `DiscoveryClient` verwendet werden.
-Dazu muss die Annotation `@EnableDiscoveryClient` in der Spring Boot Application-Klasse ergänzt werden:
-
-```java
-@SpringBootApplication
-@EnableDiscoveryClient
-public class MicroserviceA {
-  public static void main(String[] args) {
-    SpringApplication.run(MicroserviceA.class, args);
-  }
-}
-```
-
-Daraufhin kann per Dependency Injection ein `DiscoveryClient` erstellt werden, welcher die Kubernetes API auf Services abfragt:
-
-```java
-@Autowired
-private DiscoveryClient discoveryClient;
-
-// List<String> all_services = discoveryClient.getServices();
-// List<ServiceInstance> ms_b_instances = discoveryClient.getInstances("myapp-microservice-b");
-// ...
-```
-
-> Die serverseitige Service Discovery, welche nativ in Kubernetes vorhanden ist, kann natürlich unabhängig vom `DiscoveryClient` verwendet werden.
-
-Das Besondere an dieser Implementation ist, dass Services in allen Namespaces von Kubernetes gefunden werden können:
-
-```yaml
-spring:
-  cloud:
-    kubernetes:
-      discovery:
-        all-namespaces: true
-```
-
-### Load Balancing (clientseitig)
-
-Neben der clientseitigen Service Discovery bringt Spring Cloud Kubernetes ebenfalls einen Load Balancer mit sich.
-Dieser kann aktiviert werden, indem bspw. ein `RestTemplate`-Bean mit der Annotation `@LoadBalanced` versehen wird \[[3]\]:
-
-```java
-@Bean
-@LoadBalanced
-RestTemplate restTemplate() {
-  return new RestTemplate();
-}
-```
-
-Ähnlich wie bei der Service Discovery kann der Load Balancer auch über verschiedene Namespaces hinweg fungieren:
-
-```yaml
-spring:
-  cloud:
-    kubernetes:
-      discovery:
-        all-namespaces: true
-```
-
-Spring Cloud Kubernetes bietet noch weitere Funktionalitäten, welche in der [offiziellen Dokumentation][site:spring-cloud-k8s] erläutert werden.
+TODO
 
 ## Referenzen
 
@@ -271,11 +285,17 @@ Spring Cloud Kubernetes bietet noch weitere Funktionalitäten, welche in der [of
 
 \[3\]: Piotr Minkowski, Spring Cloud Kubernetes Load Balancer Guide, <https://piotrminkowski.com/2020/09/10/spring-cloud-kubernetes-load-balancer-guide/>
 
+\[4\]: State of Microservices 2020 Report, <https://tsh.io/state-of-microservices/#ebook>
+
+\[5\]: Rhuan Rocha, Why Java is so hot right now, <https://developers.redhat.com/blog/2019/09/05/why-java-is-so-hot-right-now>
+
 <!----------------------------->
 <!-- Referenzen für Markdown -->
 [1]: https://www.innoq.com/de/articles/2016/12/microservices-a-la-netflix/
 [2]: https://github.com/Netflix/eureka/wiki/Eureka-2.0-Motivations
 [3]: https://piotrminkowski.com/2020/09/10/spring-cloud-kubernetes-load-balancer-guide/
+[4]: https://tsh.io/state-of-microservices/#ebook
+[5]: https://developers.redhat.com/blog/2019/09/05/why-java-is-so-hot-right-now
 <!-- Seiten & Bilder -->
 [site:netflix-oss]: https://netflix.github.io/
 [site:spring-cloud-netflix]: https://spring.io/projects/spring-cloud-netflix
@@ -286,3 +306,4 @@ Spring Cloud Kubernetes bietet noch weitere Funktionalitäten, welche in der [of
 [site:k8s-ingress]: https://kubernetes.io/docs/concepts/services-networking/ingress/
 [site:nginx-ingress-controller]: https://kubernetes.github.io/ingress-nginx/deploy/
 [site:spring-cloud-k8s]: https://docs.spring.io/spring-cloud-kubernetes/docs/current/reference/html/
+[site:spring-cloud-k8s-resilience]: https://docs.spring.io/spring-cloud-kubernetes/docs/current/reference/html/#kubernetes-native-service-discovery
