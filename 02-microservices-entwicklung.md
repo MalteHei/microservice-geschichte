@@ -130,7 +130,7 @@ spec:
   # template: ...
 ```
 
-### Routing via Services
+### Routing innerhalb eines Clusters via Services
 
 Routing innerhalb des Clusters kann mithilfe von normalen Services (= `type: ClusterIP`, entspricht dem Defaultwert) erreicht werden. Die Domain eines Services wird dabei über das Attribut `metadata.name` definiert:
 
@@ -163,7 +163,7 @@ Ein Container innerhalb von `myapp-component-a` könnte so mit `myapp-component-
 
 ### Load Balancing via Services
 
-Load Balancing kann in Kubernetes u. a. durch Services realisiert werden. Wenn bspw. ein `ReplicaSet` existiert...
+Load Balancing kann in Kubernetes u. a. serverseitig durch Services realisiert werden. Wenn bspw. ein `ReplicaSet` existiert...
 
 ```yaml
 # deployment.yaml
@@ -193,10 +193,10 @@ spec:
   # ports: ...
 ```
 
-Der `myapp-service` verteilt dann automatisch Anfragen für die angegebenen Ports auf die Instanzen von `myapp` im ReplicaSet.
+Der `myapp-service` verteilt dann automatisch Anfragen für die angegebenen Ports auf die Instanzen von `myapp` im ReplicaSet. Diese Funktionalität macht eine **clientseitige Service Discovery obsolet**, da Clients lediglich die Namen der Services kennen müssen, um auf diese zuzugreifen.
 Durch die Angabe von `type: LoadBalancer` wird außerdem ermöglicht, dass die im Service angegebenen Ports außerhalb des Kubernetes Clusters angesprochen werden können.
 
-### Ingress
+### Routing außerhalb eines Clusters via Ingress
 
 In Kubernetes wird [Ingress][site:k8s-ingress] hauptsächlich dazu verwendet, Anfragen für HTTP(S)-Routen außerhalb eines Clusters auf Services innerhalb eines Clusters weiterzuleiten.
 
@@ -273,9 +273,11 @@ zugreifen.
 
 ## Fazit
 
-In diesem Artikel wurden der Netflix-Stack (Spring Cloud Netflix) mit Spring Cloud Kubernetes und nativen Kubernetes-Funktionalitäten hinsichtlich Service Discovery, Load Balancing, Resilienz und Routing verglichen.
+In diesem Artikel wurden der Netflix-Stack (Spring Cloud Netflix) mit Spring Cloud Kubernetes sowie nativen Kubernetes-Funktionalitäten hinsichtlich Service Discovery, Load Balancing, Resilienz und Routing verglichen.
 
-TODO
+Dabei stellte sich heraus, dass Spring Cloud Kubernetes eine essenzielle Erweiterung zu Sprig Cloud Netflix ist, wenn man Kubernetes zur Orchestrierung seiner Microservices verwenden möchte. Hierdurch kann nämlich beispielsweise auf einen Eureka Server als zusätzliche Komponente im System verzichtet werden. Jedoch kann Spring Cloud Netflix nicht gänzlich durch Spring Cloud Kubernetes ersetzt werden, da für Resilienz und Routing nach wie vor auf den Netflix-Stack zurückgegriffen werden muss.
+
+Dahingegen konnte bei Kubernetes festgestellt werden, dass die hier thematisierten Funktionalitäten nativ verfügbar sind und ohne großen Aufwand implementiert werden können. Somit kann man sich den Aufwand sparen, der mit der Entwicklung sowie Wartung von extra Services (Eureka Server usw.) verknüpft ist.
 
 ## Referenzen
 
