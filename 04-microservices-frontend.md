@@ -1,4 +1,4 @@
-# Frontend(s) in einer Microservice-Architektur
+# Frontend(s) in einer Microservice-Umgebung
 
 Im vorherigen Teil dieser Artikel-Serie wurde ...
 
