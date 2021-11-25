@@ -147,7 +147,7 @@ Dabei stellte sich heraus, dass der **NGINX Ingress Controller** von Kubernetes 
 Der **Kong Ingress Controller** kann ebenso einfach installiert werden, bietet dank Plugins und Custom Resources allerdings noch mehr Features und Konfigurationsmöglichkeiten.
 Zalando's **Skipper Ingress Controller** konnte mich leider nicht überzeugen; die Installation ist relativ umständlich, Manifeste sind veraltet und die einzige Informationsquelle ist die Dokumentation von Zalando. Das ist besonders enttäuschend, da die umfangreichen Routing-Methoden sehr vielversprechend waren.
 
-Weitere sehr vielversprechende und beliebte Ingress Controller sind [Istio Ingress][istio] sowie [Traefik][traefik], welche ich zukünftig definitiv auch noch ausprobieren werde.
+Weitere beliebte und sehr vielversprechende Ingress Controller sind [Istio Ingress][istio] sowie [Traefik][traefik], welche ich zukünftig definitiv auch noch ausprobieren werde.
 
 Ich hoffe, dass dieser Exkurs in Kubernetes Ingress Controllern dem Einen oder Anderen bei der Wahl eines geeigneten Controllers weiterhelfen kann. Im nächsten und letzten Artikel dieser Serie wird erläutert, welche Pattern existieren, um Frontends in einer Microservice-Umgebung zu entwickeln.
 

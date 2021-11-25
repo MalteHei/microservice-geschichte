@@ -306,6 +306,8 @@ Dabei stellte sich heraus, dass Spring Cloud Kubernetes eine essenzielle Erweite
 
 Dahingegen konnte bei Kubernetes festgestellt werden, dass die hier thematisierten Funktionalitäten nativ verfügbar sind und ohne großen Aufwand implementiert werden können. Somit kann man sich den Aufwand sparen, der mit der Entwicklung sowie Wartung von extra Services (Eureka Server usw.) verknüpft ist.
 
+Im nächsten Teil dieser Artikel-Serie ist ein kleiner Exkurs in Kubernetes Ingress Controller und beinhaltet meine persönlichen Erfahrungen mit drei verschiedenen Projekten.
+
 ## Referenzen
 
 \[1\]: Carsten Pelka, Michael Plöd, Microservices à la Netflix - Die Bestandteile von Spring Cloud Netflix, <https://www.innoq.com/de/articles/2016/12/microservices-a-la-netflix/>
