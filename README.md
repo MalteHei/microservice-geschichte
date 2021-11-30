@@ -1,5 +1,7 @@
 # ORDIX Blog: Microservices
 
+> Die folgenden Artikel sollen Teil einer **Artikel-Serie** sein.
+
 - [Teil 1][teil01]: Die Geschichte von Microservices
 - [Teil 2][teil02]: Entwicklung von Microservices
 - [Teil 3][teil03]: Exkurs: Kubernetes Ingress Controller
