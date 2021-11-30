@@ -296,7 +296,7 @@ Nach dem Anwenden dieser Konfigurationen könnte man über...
 
 zugreifen.
 
-> Es sollte beachtet werden, dass zusätzlich zum Ingress-Objekt zwingend ein **Ingress Controller** (z. B. [von NGINX][site:nginx-ingress-controller]) benötigt wird. Dieser Controller interpretiert die Regeln der Ingress-Ressource und führt basierend darauf das Routing durch.
+> Es sollte beachtet werden, dass zusätzlich zum Ingress-Objekt zwingend ein **Ingress Controller** (z. B. [von NGINX][site:nginx-ingress-controller]) benötigt wird. Dieser Controller interpretiert die Regeln der Ingress-Ressource und führt basierend darauf das Routing durch. Mehr zu Ingress Controllern jedoch im nächsten Teil dieser Artikel-Serie.
 
 ## Fazit
 
