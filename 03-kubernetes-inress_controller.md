@@ -1,9 +1,9 @@
-# Kubernetes Ingress Controller
+# Microservices - Teil 3: Kubernetes Ingress Controller (Exkurs)
 
-Im Rahmen dieser Artikel-Serie habe ich mich viel mit [Kubernetes Ingress][ingress] beschäftigt.
-Dabei fiel mir jedoch die Wahl eines Ingress Controllers aufgrund der schieren Anzahl an [verfügbaren Optionen][controller:overview] schwer.
+Im Rahmen dieser Artikel-Serie habe ich mich viel mit Kubernetes und sukzessiv mit [Kubernetes Ingress][ingress] beschäftigt.
+Dabei fiel mir die Wahl eines Ingress Controllers aufgrund der schieren Anzahl an [verfügbaren Optionen][controller:overview] schwer.
 
-In diesem Artikel werde ich daher meine _persönlichen Erfahrungen_ mit einer willkürlichen Auswahl an Ingress Controllern darlegen (in der Hoffnung, die Wahl eines geeigneten Controllers für Ihr Projekt zu erleichtern).
+In diesem Artikel werde ich daher meine _persönlichen Erfahrungen_ mit einer willkürlichen Auswahl an Ingress Controllern darlegen (in der Hoffnung, Ihre Wahl eines geeigneten Controllers für Ihr Projekt zu erleichtern).
 
 > Für diesen Artikel wird ein grundlegendes Verständnis von [Kubernetes Ingress][ingress] vorausgesetzt.
 
