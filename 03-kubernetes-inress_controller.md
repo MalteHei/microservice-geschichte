@@ -151,7 +151,8 @@ Weitere beliebte und sehr vielversprechende Ingress Controller sind [Istio Ingre
 
 Ich hoffe, dass dieser Exkurs in Kubernetes Ingress Controllern dem Einen oder Anderen bei der Wahl eines geeigneten Controllers weiterhelfen kann. Im nächsten und letzten Artikel dieser Serie wird erläutert, welche Pattern existieren, um Frontends in einer Microservice-Umgebung zu entwickeln.
 
-<!-- REFERENCES -->
+<!----------------------------->
+<!-- Referenzen für Markdown -->
 [ingress]: https://kubernetes.io/docs/concepts/services-networking/ingress/
 [controller:overview]: https://docs.google.com/spreadsheets/d/191WWNpjJ2za6-nbG4ZoUMXMpUK8KlCIosvQB0f-oq3k
 [istio]: https://istio.io/latest/docs/
