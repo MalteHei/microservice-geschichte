@@ -51,6 +51,14 @@ Folgende Ansätze können u. a. zur Implementation dieses Patterns verwendet wer
 
 ## Fazit
 
+In diesem Artikel wurden Architekturmuster zur Erstellung von Frontends in einer Microservice-Umgebung betrachtet.
+Dabei wurde festgestellt, dass die Entwicklung monolithischer Frontends unter gewissen Umständen (viele Teams, viele Funktionen) suboptimal ist.
+
+Stattdessen können Microfrontends entwickelt werden, welche die selben Vorteile mit sich bringen wie Microservices.
+Die Integration der Microfrontends kann entweder zu Build-Zeit oder Laufzeit geschehen, wobei eine Build-time Integration aufgrund der engen Kopplung der Microfrontends vermieden werden sollte. Zur Implementation der Runtime Integration gibt es mehrere Möglichkeiten, sodass je nach (technischen) Anforderungen eine optimale Lösung gefunden werden kann.
+
+<!-- Allgemeines Fazit zur kompletten Artikel-Serie? -->
+
 ## Referenzen
 
 \[1\]: A. Fleischer, H. Schröder (2021), Frontends with Microservices – Why the choice of frontend architecture also impacts team collaboration, <https://www.otto.de/jobs/technology/techblog/artikel/frontends-with-microservices.php>
