@@ -9,5 +9,5 @@
 
 [teil01]: ./01-microservices-geschichte.md
 [teil02]: ./02-microservices-entwicklung.md
-[teil03]: ./03-kubernetes-ingress-controller.md
+[teil03]: ./03-kubernetes-ingress_controller.md
 [teil04]: ./04-microservices-frontend.md
