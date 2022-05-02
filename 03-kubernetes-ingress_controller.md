@@ -143,7 +143,7 @@ Trotz meiner besten Bemühungen, konnte ich den Skipper Ingress Controller bei m
 ## Fazit
 
 In diesem Artikel habe ich meine persönlichen Erfahrungen mit drei Controllern für Kubernetes Ingress dargelegt.
-Dabei stellte sich heraus, dass der **NGINX Ingress Controller** von Kubernetes sehr gut für den Einstieg in K8s Ingress geeignet ist. Gründe dafür sind die einfach Installation via Helm sowie die simple Konfiguration, welche ausschließlich über Annotationen in der Ingress Ressource möglich ist.
+Dabei stellte sich heraus, dass der **NGINX Ingress Controller** von Kubernetes sehr gut für den Einstieg in K8s Ingress geeignet ist. Gründe dafür sind die einfache Installation via Helm sowie die simple Konfiguration, welche ausschließlich über Annotationen in der Ingress Ressource möglich ist.
 Der **Kong Ingress Controller** kann ebenso einfach installiert werden, bietet dank Plugins und Custom Resources allerdings noch mehr Features und Konfigurationsmöglichkeiten.
 Zalando's **Skipper Ingress Controller** konnte mich leider nicht überzeugen; die Installation ist relativ umständlich, Manifeste sind veraltet und die einzige Informationsquelle ist die Dokumentation von Zalando. Das ist besonders enttäuschend, da die umfangreichen Routing-Methoden sehr vielversprechend waren.
 

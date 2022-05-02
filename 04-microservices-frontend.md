@@ -13,7 +13,7 @@ Das bedeutet allerdings nicht, dass die Entwicklung eines Frontend-Monolithen ke
 
 ## Microfrontends
 
-Die Idee hinter Microfrontends ist dieselbe wie bei Microservices: Eine enge Kopplung von Komponenten soll eliminiert werden, damit diese jeweils unabhängig voneinander entwickelt und ausgeliefert werden können. Dabei übernimmt jedes Microservice-Team nicht nur die Verantwortung für den jeweiligen Microservices, sondern auch für das dazugehörige Frontend (siehe Abbildung 1) \[[1]\] \[[2]\].
+Die Idee hinter Microfrontends ist dieselbe wie bei Microservices: Eine enge Kopplung von Komponenten soll eliminiert werden, damit diese jeweils unabhängig voneinander entwickelt und ausgeliefert werden können. Dabei übernimmt jedes Microservice-Team nicht nur die Verantwortung für den jeweiligen Microservice, sondern auch für das dazugehörige Frontend (siehe Abbildung 1) \[[1], [2]\].
 
 <center>
 
@@ -29,21 +29,21 @@ Im Folgenden werden einige Pattern zur Integration der Microfrontend-Architektur
 ### Build-time Integration
 
 Bei diesem Pattern wird jedes Frontend als eigenes [Package bzw. Modul][site:npm-packages] bereitgestellt. Zusätzlich wird eine Container-Anwendung erstellt, in der die Frontend-Packages der verwendeten Microservices als Abhängigkeiten aggregiert und zur Build-Zeit kompiliert werden.
-Dabei ist eben dieser letzte Schritt der der Nachteil dieses Patterns: Bei der kleinsten Änderung an einem der Frontend-Packages muss die komplette Container-App, inklusive aller anderen Packages, neu gebaut und ausgerollt werden. Dadurch wird die lose Kopplung aufgehoben, welche überhaupt der Grund zur Einführung einer Microfrontend-Architektur war, weshalb man das Pattern der Build-time Integration **vermeiden** sollte \[[1]\] \[[2]\].
+Dabei ist eben dieser letzte Schritt der Nachteil dieses Patterns: Bei der kleinsten Änderung an einem der Frontend-Packages muss die komplette Container-App, inklusive aller anderen Packages, neu gebaut und ausgerollt werden. Dadurch wird die lose Kopplung aufgehoben, welche überhaupt der Grund zur Einführung einer Microfrontend-Architektur war, weshalb man das Pattern der Build-time Integration **vermeiden** sollte \[[1], [2]\].
 
 ### Runtime Integration
 
-Das Runtime Integration-Pattern ähnelt der Build-time Integration, jedoch werden die Abhängigkeiten in der Container-Anwendung hier (meist clientseitig) zur Laufzeit bezogen, wodurch die Komponenten weiterhin lose gekoppelt bleiben \[[1]\] \[[2]\].
+Das Runtime Integration-Pattern ähnelt der Build-time Integration, jedoch werden die Abhängigkeiten in der Container-Anwendung hier (meist clientseitig) zur Laufzeit bezogen, wodurch die Komponenten weiterhin lose gekoppelt bleiben \[[1], [2]\].
 
 Folgende Ansätze können u. a. zur Implementation dieses Patterns verwendet werden:
 
 - **Web Components**:
 
-  [Web Components][site:web-components] basieren auf dem Webstandard [Custom Elements][site:custom-elements], welcher die Definition individueller HTML-Elemente ermöglicht. Durch das Beziehen der Microfrontends werden demnach eigene Komponenten definiert, welche anschließend von der Container-App auf der Seite angezeigt werden können \[[1]\] \[[2]\].
+  [Web Components][site:web-components] basieren auf dem Webstandard [Custom Elements][site:custom-elements], welcher die Definition individueller HTML-Elemente ermöglicht. Durch das Beziehen der Microfrontends werden demnach eigene Komponenten definiert, welche anschließend von der Container-App auf der Seite angezeigt werden können \[[1], [2]\].
 
 - **JavaScript**:
 
-  Bei diesem Ansatz definieren die Microfrontends keine Komponenten, sondern globale Funktionen (bspw. `window.renderUserProfile`). Diese Funktionen sind für die Erstellung sowie Darstellung der UI-Elemente zuständig und können basierend auf dem angefordertem Pfad aufgerufen werden \[[1]\] \[[2]\].
+  Bei diesem Ansatz definieren die Microfrontends keine Komponenten, sondern globale Funktionen (bspw. `window.renderUserProfile`). Diese Funktionen sind für die Erstellung sowie Darstellung der UI-Elemente zuständig und können basierend auf dem angefordertem Pfad aufgerufen werden \[[1], [2]\].
 
 - **Single SPA**:
 
