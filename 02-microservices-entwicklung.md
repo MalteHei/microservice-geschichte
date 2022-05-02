@@ -40,7 +40,7 @@ Um alle Funktionalitäten von Spring Cloud Kubernetes in einem Microservice nutz
 </dependency>
 ```
 
-> Version `1.1.10` ist aktuell die neueste Version dieser Abhängigkeit und kompatibel mit Spring Boot `2.3.X`.
+> Version `1.1.10` ist (aktuell) die neueste Version dieser Abhängigkeit und kompatibel mit Spring Boot `2.3.X`.
 
 ### Service Discovery (clientseitig)
 
